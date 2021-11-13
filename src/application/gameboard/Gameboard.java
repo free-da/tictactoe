@@ -27,10 +27,23 @@ public class Gameboard {
 		ArrayList<String> rowCaptionValues = getRowCaptionValues();
 		String printableColumnCaption = makeBeautifulColumnCaption(columnCaptionValues);
 		ArrayList<String> printableGrid = makePrintableGridRows(rowCaptionValues);
+		String inbetweenRows = makeBeautifulRowSeparator();
 		System.out.println(printableColumnCaption);
+		System.out.println(inbetweenRows);
 		for (int i=0; i<printableGrid.size(); i++) {
 			System.out.println(printableGrid.get(i));
+			System.out.println(inbetweenRows);
 		}
+		System.out.println();
+	}
+
+	private String makeBeautifulRowSeparator() {
+		String inbetweenRows = "--"; 
+		for (int columnCounter=0; columnCounter<NUMBEROFCOLUMNS; columnCounter++ ) {
+			inbetweenRows += "+---";
+		}
+		inbetweenRows += "+";
+		return inbetweenRows;
 	}
 
 	private ArrayList<String> makePrintableGridRows(ArrayList<String> rowCaptionValues) {
@@ -54,7 +67,7 @@ public class Gameboard {
 		case O:
 			return "O";
 		case EMPTY:
-			return "_";
+			return " ";
 		default:
 			throw new NullPointerException();
 		}

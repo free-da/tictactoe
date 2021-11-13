@@ -179,8 +179,9 @@ public class Match {
 			} else if (!gameboard.checkIfFieldIsEmpty(rowIndex, columnIndex)) {
 				return false;
 			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	private void askPlayerWhichCharacter() {
