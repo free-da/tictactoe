@@ -8,22 +8,33 @@ public class Match {
 	private FieldValueType player;
 	private FieldValueType bot;
 	private Gameboard gameboard;
-	private boolean playersTurn = true;
-	private boolean gameIsOver = false;
+	private boolean playersTurn;
+	private boolean gameIsOver;
 	private String winner;
-	private int numberOfDraws = 0;
+	private int numberOfDraws;
 	
 	public void start(){
-		
+		initializeNewGame();
 		System.out.println("Hello!");
 		askPlayerWhichCharacter();
 		printInstructions();
-		gameboard = new Gameboard();
-		gameboard.drawGameboard();
+		drawGameboard();
 		startGameLoop();
 		endGame();
 		announceWinner();
-		askToRestartOrEnd();
+		restartOrEnd();
+	}
+
+	private void drawGameboard() {
+		gameboard.drawGameboard();
+	}
+
+	private void initializeNewGame() {
+		gameboard = new Gameboard();
+		playersTurn = true;
+		gameIsOver = false;
+		numberOfDraws = 0;
+		winner = "";
 	}
 
 	private void startGameLoop() {
@@ -33,18 +44,35 @@ public class Match {
 		return;
 	}
 	
-	private void askToRestartOrEnd() {
-		// TODO Auto-generated method stub
-		
+	private void restartOrEnd() {
+		System.out.println("Do you want to play again? [re][restart] [ex][exit]");
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+		try {
+        	System.out.print(">_");
+			String input = bufferedReader.readLine();
+			if (input.equals("restart") || input.equals("re")) {
+				start();
+			} else if (input.equals("exit") || input.equals("ex")) {
+				System.out.println("Bye.");
+				System.exit(0);
+			} else {
+				System.out.println("Please, play by the rules. Try again.");
+			}
+		} catch(IOException e) {
+			System.out.println("Error. Try again.");
+			playerMakesNextMove();
+		}
 	}
 
 	private void announceWinner() {
-		if (winner.equals("player")) {
-			System.out.println("You won.");
-		} else if (winner.equals("bot")) {
-			System.out.println("You lost. The machine is superior.");
+		if (gameIsOver && someoneWon()) {
+			if (winner.equals("player")) {
+				System.out.println("You won.");
+			} else if (winner.equals("bot")) {
+				System.out.println("You lost. The machine is superior.");
+			} 
 		} else {
-			System.out.println("Tied.");
+			System.out.println("Tied. Everybody loses.");
 		}
 
 	}
@@ -59,6 +87,7 @@ public class Match {
 		}
 		if (numberOfDraws == (gameboard.NUMBEROFCOLUMNS * gameboard.NUMBEROFROWS)) {
 			gameIsOver = true;
+			someoneWon();
 		}
 		return gameIsOver;
 	}
@@ -82,7 +111,7 @@ public class Match {
 			botMakesNextMove(); 
 		}
 		numberOfDraws ++;
-		gameboard.drawGameboard();
+		drawGameboard();
 
 	}
 
@@ -107,6 +136,9 @@ public class Match {
 			input = bufferedReader.readLine();
 			if (checkForValidity(input)) {
 				gameboard.setFieldValue(findRowIndex(input), findColumnIndex(input), player);
+	        } else {
+	        	System.out.println("Please, play by the rules. Try again.");
+				playerMakesNextMove();
 	        }
 		} catch(IOException e) {
 			System.out.println("Error. Try again.");

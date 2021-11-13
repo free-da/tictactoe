@@ -8,7 +8,7 @@ public class Gameboard {
 	private Grid grid;
 	
 	public Gameboard() {
-		grid = new Grid(NUMBEROFROWS, NUMBEROFCOLUMNS);
+		grid = new Grid(NUMBEROFCOLUMNS, NUMBEROFCOLUMNS);
 	}
 	
 	public void setFieldValue(final int rowIndex, final int columnIndex, FieldValueType value) {
