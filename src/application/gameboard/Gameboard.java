@@ -84,4 +84,49 @@ public class Gameboard {
 		}
 		return rowCaptionValues;
 	}
+
+	public boolean checkIfEitherWon(FieldValueType valueType) {
+		if (valueType == FieldValueType.X || valueType == FieldValueType.O) {
+			
+			//check for Rows
+			int counter = 0;
+			for (int rowIndex=0; rowIndex<NUMBEROFROWS; rowIndex++) {
+				for (int columnIndex=0; columnIndex<NUMBEROFCOLUMNS; columnIndex++) {
+					if (grid.getFieldValue(rowIndex, columnIndex) == valueType) {
+						counter++;
+					}
+				}
+				if (counter == 3) {
+					return true;
+				}
+				else {
+					counter = 0;
+				}
+			}
+			//check for columns
+			for (int columnIndex=0; columnIndex<NUMBEROFCOLUMNS; columnIndex++) {
+				for (int rowIndex=0; rowIndex<NUMBEROFROWS; rowIndex++) {
+					if (grid.getFieldValue(rowIndex, columnIndex) == valueType) {
+						counter++;
+					}
+				}
+				if (counter == 3) {
+					return true;
+				}
+				else {
+					counter = 0;
+				}
+			}
+			//check for diagonal
+			if (grid.getFieldValue(1, 1) == valueType) {
+				if (grid.getFieldValue(0,0) == valueType && grid.getFieldValue(2, 2) == valueType) {
+					return true;
+				}
+				if (grid.getFieldValue(0,2) == valueType && grid.getFieldValue(2, 0) == valueType) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }

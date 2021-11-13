@@ -10,24 +10,69 @@ public class Match {
 	private Gameboard gameboard;
 	private boolean playersTurn = true;
 	private boolean gameIsOver = false;
+	private String winner;
+	private int numberOfDraws = 0;
 	
 	public void start(){
 		
 		System.out.println("Hello!");
 		askPlayerWhichCharacter();
 		printInstructions();
-		printEmptyGameboardToConsole();
+		gameboard = new Gameboard();
+		gameboard.drawGameboard();
 		startGameLoop();
+		endGame();
+		announceWinner();
+		askToRestartOrEnd();
 	}
 
 	private void startGameLoop() {
 		while (!isGameOver()) {
 			nextMove();
 		}    
+		return;
 	}
 	
+	private void askToRestartOrEnd() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void announceWinner() {
+		if (winner.equals("player")) {
+			System.out.println("You won.");
+		} else if (winner.equals("bot")) {
+			System.out.println("You lost. The machine is superior.");
+		} else {
+			System.out.println("Tied.");
+		}
+
+	}
+
+	private void endGame() {
+		System.out.println("Game is over.");
+	}
+
 	private boolean isGameOver() {
+		if (someoneWon()) {
+			gameIsOver = true;
+		}
+		if (numberOfDraws == (gameboard.NUMBEROFCOLUMNS * gameboard.NUMBEROFROWS)) {
+			gameIsOver = true;
+		}
 		return gameIsOver;
+	}
+
+	private boolean someoneWon() {
+		if (gameboard.checkIfEitherWon(player)) {
+			winner = "player";
+			return true;	
+		}
+		if (gameboard.checkIfEitherWon(bot)) {
+			winner = "bot";
+			return true;	
+		}
+		return false;
 	}
 
 	private void nextMove() {
@@ -36,6 +81,7 @@ public class Match {
 		} else {
 			botMakesNextMove(); 
 		}
+		numberOfDraws ++;
 		gameboard.drawGameboard();
 
 	}
@@ -136,10 +182,5 @@ public class Match {
 		System.out.print("You are " + player + ". ");
 		System.out.print("You start.\n");
 		System.out.println("Enter your field coordinate.");
-	}
-	
-	private void printEmptyGameboardToConsole() {
-		gameboard = new Gameboard();
-		gameboard.drawGameboard();
 	}
 }
