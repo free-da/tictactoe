@@ -54,11 +54,10 @@ public class GameController {
 			String input = bufferedReader.readLine();
 			if(checkCharacterForValidity(input)) {
 				saveChosenCharacter(input);
-				return;
 			} else {
 				System.out.println("Try again.");
 				askPlayerWhichSymbol();
-			};
+			}
 		} catch(IOException e) {
 			System.out.println("Error. Try again.");
 			askPlayerWhichSymbol();
@@ -80,9 +79,6 @@ public class GameController {
 	}
 
 	private boolean checkCharacterForValidity(String input) {
-		if ((input.equals("X")) || (input.equals("x")) || (input.equals("O")) || (input.equals("o"))) {
-			return true;
-		}
-		return false;
+		return ((input.equals("X")) || (input.equals("x")) || (input.equals("O")) || (input.equals("o")));
 	}
 }

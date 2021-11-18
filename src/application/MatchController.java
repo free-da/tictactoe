@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class MatchController {
 	private Match match;
+	private Random randomizerForBotMoves = new Random();
 
 	public MatchController(Match match) {
 		this.match = match;
@@ -29,7 +30,7 @@ public class MatchController {
 		if (someoneWon()) {
 			match.gameIsOver = true;
 		}
-		if (match.numberOfMoves == (match.grid.NUMBEROFCOLUMNS * match.grid.NUMBEROFROWS)) {
+		if (match.numberOfMoves == (match.grid.numberOfColumns * match.grid.numberOfRows)) {
 			match.gameIsOver = true;
 			someoneWon();
 		}
@@ -59,9 +60,8 @@ public class MatchController {
 	}
 
 	private void botMakesNextMove() {
-		Random rand = new Random();
-		int rowIndex = rand.nextInt(match.grid.NUMBEROFROWS);
-		int columnIndex = rand.nextInt(match.grid.NUMBEROFCOLUMNS);
+		int rowIndex = randomizerForBotMoves.nextInt(match.grid.numberOfRows);
+		int columnIndex = randomizerForBotMoves.nextInt(match.grid.numberOfColumns);
 		if (match.grid.checkIfFieldIsEmpty(rowIndex, columnIndex)) {
 			match.grid.setFieldValue(rowIndex,columnIndex, match.botSymbol);
 			match.playersTurn = true;
@@ -90,7 +90,6 @@ public class MatchController {
         match.playersTurn = false;
         return;
 	}
-	
 
 	private void announceWinner() {
 		if (match.gameIsOver && someoneWon()) {
@@ -112,7 +111,7 @@ public class MatchController {
 	private int findColumnIndex(String input) {
 		char secondLetter = input.charAt(1);
 		String coordinatesHelperColumns = "ABCDEFG";
-		coordinatesHelperColumns = coordinatesHelperColumns.substring(0, match.grid.NUMBEROFCOLUMNS);
+		coordinatesHelperColumns = coordinatesHelperColumns.substring(0, match.grid.numberOfColumns);
 		int columnIndex = coordinatesHelperColumns.indexOf(Character.toString(secondLetter).toUpperCase());
 		return columnIndex;
 	}
@@ -120,7 +119,7 @@ public class MatchController {
 	private int findRowIndex(String input) {
 		char firstLetter = input.charAt(0);
 		String coordinatesHelperRows = "123456";
-		coordinatesHelperRows = coordinatesHelperRows.substring(0, match.grid.NUMBEROFROWS);
+		coordinatesHelperRows = coordinatesHelperRows.substring(0, match.grid.numberOfRows);
 		int rowIndex = coordinatesHelperRows.indexOf(Character.toString(firstLetter).toUpperCase());
 		return rowIndex;
 	}

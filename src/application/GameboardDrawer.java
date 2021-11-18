@@ -1,12 +1,17 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GameboardDrawer {
+	private GameboardDrawer() {
+	    throw new IllegalStateException("Do not instantiate this!");
+	}
 	
 	public static void drawGameboard(Grid grid) {
-		ArrayList<String> columnCaptionValues = getColumnCaptionValues(grid);
-		ArrayList<String> rowCaptionValues = getRowCaptionValues(grid);
+		List<String> columnCaptionValues = getColumnCaptionValues(grid);
+		List<String> rowCaptionValues = getRowCaptionValues(grid);
 		String printableColumnCaption = makeBeautifulColumnCaption(columnCaptionValues);
 		ArrayList<String> printableGrid = makePrintableGridRows(rowCaptionValues, grid);
 		String inbetweenRows = makeBeautifulRowSeparator(grid);
@@ -20,24 +25,23 @@ public class GameboardDrawer {
 	}
 
 	private static String makeBeautifulRowSeparator(Grid grid) {
-		String inbetweenRows = "--"; 
-		for (int columnCounter=0; columnCounter<grid.NUMBEROFCOLUMNS; columnCounter++ ) {
-			inbetweenRows += "+---";
+		StringBuilder rowSeparatorBuilder = new StringBuilder("--"); 
+		for (int columnCounter=0; columnCounter<grid.numberOfColumns; columnCounter++ ) {
+			rowSeparatorBuilder.append("+---");
 		}
-		inbetweenRows += "+";
-		return inbetweenRows;
+		rowSeparatorBuilder.append("+");
+		return rowSeparatorBuilder.toString();
 	}
 
-	private static ArrayList<String> makePrintableGridRows(ArrayList<String> rowCaptionValues, Grid grid) {
-		ArrayList<String> printableGrid = new ArrayList<String>();
-		for (int i=0; i<grid.NUMBEROFROWS; i++) {
+	private static ArrayList<String> makePrintableGridRows(List<String> rowCaptionValues, Grid grid) {
+		ArrayList<String> printableGrid = new ArrayList<>();
+		for (int i=0; i<grid.numberOfRows; i++) {
 			String row = rowCaptionValues.get(i) + " |";
-			for (int j=0; j<grid.NUMBEROFCOLUMNS; j++) {
+			for (int j=0; j<grid.numberOfColumns; j++) {
 				row += " " + drawFieldType(grid.getFieldValue(i,j)) + " |";
 			}
 			printableGrid.add(row);
 		}
-	
 		return printableGrid;
 	}
 	
@@ -55,28 +59,23 @@ public class GameboardDrawer {
 		}
 	}
 	
-	private static String makeBeautifulColumnCaption(ArrayList<String> columnCaptionValues) {
-		String columnCaption = "  |";
+	private static String makeBeautifulColumnCaption(List<String> columnCaptionValues) {
+		  StringBuilder columnCaptionBuilder = new StringBuilder();
+		  columnCaptionBuilder.append("  |");
 		for (int i=0; i<columnCaptionValues.size(); i++) {
-			columnCaption += " " + columnCaptionValues.get(i) + " |"; 
+			columnCaptionBuilder.append(" " + columnCaptionValues.get(i) + " |"); 
 		}
-		return columnCaption;
+		return columnCaptionBuilder.toString();
 	}
 	
-	private static ArrayList<String> getColumnCaptionValues(Grid grid) {
+	private static List<String> getColumnCaptionValues(Grid grid) {
 		String[] columnCaptionHelper = {"A", "B", "C", "D", "E", "F"};
-		ArrayList<String> columnCaptionValues = new ArrayList<String>();
-		for (int j=0; j<grid.NUMBEROFCOLUMNS; j++) {
-			columnCaptionValues.add(columnCaptionHelper[j]);
-		}
-		return columnCaptionValues;
+		String[] columnCaptionValues = Arrays.copyOf(columnCaptionHelper, grid.numberOfColumns);
+		return Arrays.asList(columnCaptionValues);
 	}
-	private static ArrayList<String> getRowCaptionValues(Grid grid) {
+	private static List<String> getRowCaptionValues(Grid grid) {
 		String[] rowCaptionHelper = {"1", "2", "3", "4", "5", "6"};
-		ArrayList<String> rowCaptionValues = new ArrayList<String>();
-		for (int j=0; j<grid.NUMBEROFCOLUMNS; j++) {
-			rowCaptionValues.add(rowCaptionHelper[j]);
-		}
-		return rowCaptionValues;
+		String[] rowCaptionValues = Arrays.copyOf(rowCaptionHelper, grid.numberOfRows);
+		return Arrays.asList(rowCaptionValues);
 	}
 }

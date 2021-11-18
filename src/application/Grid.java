@@ -1,36 +1,33 @@
 package application;
 
 public class Grid {
-	private Field[][] grid;
-	int NUMBEROFROWS;
-	int NUMBEROFCOLUMNS;
+	private Field[][] fieldMatrix;
+	final int numberOfRows;
+	final int numberOfColumns;
 
 	public Grid () {
-		NUMBEROFROWS = 3;
-		NUMBEROFCOLUMNS = NUMBEROFROWS;
-		grid = new Field[NUMBEROFROWS][NUMBEROFCOLUMNS];
-		for (int i=0; i<NUMBEROFROWS; i++) {
-			for (int j=0; j<NUMBEROFCOLUMNS; j++) {
-				this.grid[i][j] = new Field();
+		numberOfRows = 3;
+		numberOfColumns = numberOfRows;
+		fieldMatrix = new Field[numberOfRows][numberOfColumns];
+		for (int i=0; i<numberOfRows; i++) {
+			for (int j=0; j<numberOfColumns; j++) {
+				this.fieldMatrix[i][j] = new Field();
 			}
 		}
 	}
 	
 	public void setFieldValue(final int rowIndex, int columnIndex, Symbol value) {
-		Field field = grid[rowIndex][columnIndex];
+		Field field = fieldMatrix[rowIndex][columnIndex];
 		field.setFieldSymbol(value);
 	}
 	
 	public Symbol getFieldValue(int rowIndex, int columnIndex) {
-		Field field = grid[rowIndex][columnIndex];
+		Field field = fieldMatrix[rowIndex][columnIndex];
 		return field.getValue();
 	}
 	
 	public boolean checkIfFieldIsEmpty(final int rowIndex, final int columnIndex) {
-		if (getFieldValue(rowIndex, columnIndex) == Symbol.EMPTY) {
-			return true;
-		}
-		return false;
+		return (getFieldValue(rowIndex, columnIndex) == Symbol.EMPTY);
 	}
 
 }
