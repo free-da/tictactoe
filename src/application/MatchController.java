@@ -22,8 +22,7 @@ public class MatchController {
 	private void startGameLoop() {
 		while (!isGameOver()) {
 			nextMove();
-		}    
-		return;
+		}
 	}
 
 	private boolean isGameOver() {
@@ -65,7 +64,6 @@ public class MatchController {
 		if (match.grid.checkIfFieldIsEmpty(rowIndex, columnIndex)) {
 			match.grid.setFieldValue(rowIndex,columnIndex, match.botSymbol);
 			match.playersTurn = true;
-			return;
         } else {
         	botMakesNextMove();
         }
@@ -88,7 +86,6 @@ public class MatchController {
 			playerMakesNextMove();
 		}
         match.playersTurn = false;
-        return;
 	}
 
 	private void announceWinner() {
@@ -112,28 +109,21 @@ public class MatchController {
 		char secondLetter = input.charAt(1);
 		String coordinatesHelperColumns = "ABCDEFG";
 		coordinatesHelperColumns = coordinatesHelperColumns.substring(0, match.grid.numberOfColumns);
-		int columnIndex = coordinatesHelperColumns.indexOf(Character.toString(secondLetter).toUpperCase());
-		return columnIndex;
+		return coordinatesHelperColumns.indexOf(Character.toString(secondLetter).toUpperCase());
 	}
 	
 	private int findRowIndex(String input) {
 		char firstLetter = input.charAt(0);
 		String coordinatesHelperRows = "123456";
 		coordinatesHelperRows = coordinatesHelperRows.substring(0, match.grid.numberOfRows);
-		int rowIndex = coordinatesHelperRows.indexOf(Character.toString(firstLetter).toUpperCase());
-		return rowIndex;
+		return coordinatesHelperRows.indexOf(Character.toString(firstLetter).toUpperCase());
 	}
 
 	private boolean coordinateInputIsValid(String input) {
 		if (input.length()==2) {
 			int columnIndex = findColumnIndex(input);
 			int rowIndex = findRowIndex(input);
-			if (columnIndex < 0 || rowIndex < 0) {
-				return false;
-			} else if (!match.grid.checkIfFieldIsEmpty(rowIndex, columnIndex)) {
-				return false;
-			}
-			return true;
+			return !(columnIndex < 0 || rowIndex < 0 || !match.grid.checkIfFieldIsEmpty(rowIndex, columnIndex));
 		}
 		return false;
 	}
